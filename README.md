@@ -1,2 +1,2 @@
 # Spotify-Yoinker
-Search a song or playlist on spotify and download it via youtube.
+An app that searches songs or playlists on spotify and download them via youtube.
