@@ -1,4 +1,4 @@
-package com.example.yoinker.model;
+package com.example.captainhook.model;
 
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
@@ -18,9 +18,9 @@ public interface EntryDao {
     @Delete
     void delete(Entry entry);
 
-    @Query("DELETE FROM search_entries_table")
+    @Query("DELETE FROM history_table")
     void deleteAllEntries();
 
-    @Query("SELECT * FROM search_entries_table ORDER BY timestamp ASC")
+    @Query("SELECT * FROM history_table ORDER BY interpret ASC")
     LiveData<List<Entry>> getAllEntries();
 }

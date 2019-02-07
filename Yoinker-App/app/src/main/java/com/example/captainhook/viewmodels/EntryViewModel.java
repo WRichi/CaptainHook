@@ -1,9 +1,9 @@
-package com.example.yoinker.viewmodels;
+package com.example.captainhook.viewmodels;
 
 import android.app.Application;
 
-import com.example.yoinker.model.Entry;
-import com.example.yoinker.model.EntryRepository;
+import com.example.captainhook.model.Entry;
+import com.example.captainhook.model.EntryRepository;
 
 import java.util.List;
 

@@ -3,7 +3,7 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "com.example.yoinker"
+        applicationId "com.example.captainhook"
         minSdkVersion 21
         targetSdkVersion 28
         versionCode 1
@@ -28,6 +28,10 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+
+    // Glide
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.7.1'
+    implementation 'jp.wasabeef:glide-transformations:3.3.0'
 
     // ViewModel and LiveData
     annotationProcessor "android.arch.lifecycle:compiler:1.1.1"

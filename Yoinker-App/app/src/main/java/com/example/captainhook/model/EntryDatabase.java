@@ -1,4 +1,4 @@
-package com.example.yoinker.model;
+package com.example.captainhook.model;
 
 import android.arch.persistence.db.SupportSQLiteDatabase;
 import android.arch.persistence.room.Database;
@@ -53,11 +53,9 @@ public abstract class EntryDatabase extends RoomDatabase {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            Date date = new Date();
-            String timestamp = date.toString();
-            entryDao.insert(new Entry("Title 1", timestamp));
-            entryDao.insert(new Entry("Title 2", timestamp));
-            entryDao.insert(new Entry("Title 3", timestamp));
+            entryDao.insert(new Entry("Jan Ulrich", "Genz", "https://asdhkfladsgasdfasdf.com/jdsalkgkajsg.png", "C/Users/Me/Music/video.mp3"));
+            entryDao.insert(new Entry("Bohemian Rapsody", "Queen", "https://asdhkfladsgasdfasdf.com/jdsalkgkajsg.png", "C/Users/Me/Music/video.mp3"));
+            entryDao.insert(new Entry("Bleed it out", "Linkin Park", "https://asdhkfladsgasdfasdf.com/jdsalkgkajsg.png", "C/Users/Me/Music/video.mp3"));
             return null;
         }
     }

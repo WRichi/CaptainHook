@@ -1,4 +1,4 @@
-package com.example.yoinker.views;
+package com.example.captainhook.views;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
@@ -6,14 +6,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.Toast;
 
-import com.example.yoinker.R;
-import com.example.yoinker.model.Entry;
-import com.example.yoinker.viewmodels.EntryViewModel;
+import com.bumptech.glide.RequestManager;
+import com.example.captainhook.model.Entry;
+import com.example.captainhook.viewmodels.EntryViewModel;
+import com.example.captainhook.R;
 
 import java.util.List;
 
-
+/**
+ *  History Activity, change class name later
+ */
 public class MainActivity extends AppCompatActivity {
 
     private EntryViewModel entryViewModel;
@@ -27,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
 
-        final EntryAdapter adapter = new EntryAdapter();
+        final EntryAdapter adapter = new EntryAdapter(getApplicationContext());
         recyclerView.setAdapter(adapter);
 
         entryViewModel = ViewModelProviders.of(this).get(EntryViewModel.class);
@@ -35,6 +39,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onChanged(List<Entry> entries) {
                 adapter.setEntries(entries);
+            }
+        });
+
+        adapter.setOnItemClickListener(new EntryAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(Entry entry) {
+                // Open file or open file manager with path to file
+                Toast.makeText(MainActivity.this, entry.getPath_to_file(), Toast.LENGTH_SHORT).show();
             }
         });
     }

@@ -1,4 +1,4 @@
-package com.example.yoinker;
+package com.example.captainhook;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.example.yoinker", appContext.getPackageName());
+        assertEquals("com.example.captainhook", appContext.getPackageName());
     }
 }

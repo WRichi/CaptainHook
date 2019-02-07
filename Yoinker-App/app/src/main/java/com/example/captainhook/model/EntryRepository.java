@@ -1,4 +1,4 @@
-package com.example.yoinker.model;
+package com.example.captainhook.model;
 
 import android.app.Application;
 import android.os.AsyncTask;
