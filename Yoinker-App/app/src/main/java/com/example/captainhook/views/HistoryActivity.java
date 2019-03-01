@@ -8,7 +8,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
 
-import com.bumptech.glide.RequestManager;
 import com.example.captainhook.model.Entry;
 import com.example.captainhook.viewmodels.EntryViewModel;
 import com.example.captainhook.R;
@@ -18,16 +17,16 @@ import java.util.List;
 /**
  *  History Activity, change class name later
  */
-public class MainActivity extends AppCompatActivity {
+public class HistoryActivity extends AppCompatActivity {
 
     private EntryViewModel entryViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_history);
 
-        RecyclerView recyclerView = findViewById(R.id.recycler_view);
+        RecyclerView recyclerView = findViewById(R.id.history_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
 
@@ -46,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(Entry entry) {
                 // Open file or open file manager with path to file
-                Toast.makeText(MainActivity.this, entry.getPath_to_file(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(HistoryActivity.this, entry.getPath_to_file(), Toast.LENGTH_SHORT).show();
             }
         });
     }
