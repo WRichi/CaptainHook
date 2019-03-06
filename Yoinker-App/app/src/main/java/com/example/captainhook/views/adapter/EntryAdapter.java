@@ -1,4 +1,4 @@
-package com.example.captainhook.views;
+package com.example.captainhook.views.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -9,10 +9,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.RequestManager;
-import com.example.captainhook.model.Entry;
+import com.example.captainhook.model.entries.Entry;
 import com.example.captainhook.R;
+import com.example.captainhook.views.GlideApp;
 
 import java.util.ArrayList;
 import java.util.List;

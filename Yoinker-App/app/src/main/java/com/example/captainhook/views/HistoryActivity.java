@@ -8,9 +8,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
 
-import com.example.captainhook.model.Entry;
+import com.example.captainhook.model.entries.Entry;
 import com.example.captainhook.viewmodels.EntryViewModel;
 import com.example.captainhook.R;
+import com.example.captainhook.views.adapter.EntryAdapter;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.example.captainhook.model;
+package com.example.captainhook.model.entries;
 
 import android.arch.persistence.db.SupportSQLiteDatabase;
 import android.arch.persistence.room.Database;
@@ -7,8 +7,6 @@ import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
-
-import java.util.Date;
 
 @Database(entities = {Entry.class}, version = 1)
 public abstract class EntryDatabase extends RoomDatabase {

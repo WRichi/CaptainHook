@@ -1,4 +1,4 @@
-package com.example.captainhook.model;
+package com.example.captainhook.model.entries;
 
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;

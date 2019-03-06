@@ -7,29 +7,45 @@ import java.util.List;
 
 import android.arch.lifecycle.LiveData;
 
-public class EntryRepository {
+import com.example.captainhook.model.entries.Entry;
+import com.example.captainhook.model.entries.EntryDao;
+import com.example.captainhook.model.entries.EntryDatabase;
+import com.example.captainhook.model.spotify.SpotifyAccessTokenCallback;
+import com.example.captainhook.model.spotify.SpotifyDataSource;
+import com.example.captainhook.model.spotify.SpotifySearchResultCallback;
+import com.example.captainhook.model.spotify.SpotifySearchType;
+import com.example.captainhook.model.spotify.spotify_model.AccessToken;
+import com.example.captainhook.model.youtube.YoutubeCallback;
+import com.example.captainhook.model.youtube.YoutubeDataSource;
+
+public class CaptainHookRepository {
 
     private EntryDao entryDao;
+    private SpotifyDataSource spotifyDataSource;
+    private YoutubeDataSource youtubeDataSource;
     private LiveData<List<Entry>> allEntries;
+    private AccessToken accessToken = null;
 
-    public EntryRepository(Application application) {
+    public CaptainHookRepository(Application application) {
         EntryDatabase database = EntryDatabase.getInstance(application);
         entryDao = database.entryDao();
+        spotifyDataSource = new SpotifyDataSource();
+        youtubeDataSource = new YoutubeDataSource();
         allEntries = entryDao.getAllEntries();
     }
 
     /**
      * Api for the outside e.g. ViewModel
      */
-    public void insert(Entry entry) {
+    public void insertEntry(Entry entry) {
         new InsertEntryAsyncTask(entryDao).execute(entry);
     }
 
-    public void delete(Entry entry) {
+    public void deleteEntry(Entry entry) {
         new DeleteEntryAsyncTask(entryDao).execute(entry);
     }
 
-    public void deleteAll() {
+    public void deleteAllEntries() {
         new DeleteAllEntriesAsyncTask(entryDao).execute();
     }
 
@@ -37,6 +53,23 @@ public class EntryRepository {
         return allEntries;
     }
 
+    public void searchSpotify(final String query, final SpotifySearchType searchType, final SpotifySearchResultCallback resultCallback){
+        if(accessToken != null && accessToken.getExpiresIn() != 0){
+            spotifyDataSource.searchSpotify(query, searchType, accessToken, resultCallback);
+        }else{
+            spotifyDataSource.getAccessToken(new SpotifyAccessTokenCallback() {
+                @Override
+                public void onAccessTokenRecieved(AccessToken accessToken) {
+                    CaptainHookRepository.this.accessToken = accessToken;
+                    spotifyDataSource.searchSpotify(query, searchType, accessToken, resultCallback);
+                }
+            });
+        }
+    }
+
+    public void browseYoutube(String query, YoutubeCallback youtubeCallback){
+        youtubeDataSource.browseYoutube(query, youtubeCallback);
+    }
 
     /**
      * Async task for the database functions

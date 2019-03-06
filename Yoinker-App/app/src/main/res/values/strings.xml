@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">CaptainHook</string>
+    <string name="history">history</string>
     <string-array name="spotify_search_category">
-        <item>Track</item>
-        <item>Playlist</item>
+        <item>TRACK</item>
+        <item>PLAYLIST</item>
     </string-array>
 </resources>
