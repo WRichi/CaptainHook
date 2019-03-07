@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/spotify_black">
+
+    <Spinner
+        android:id="@+id/spotify_search_spinner"
+        android:layout_width="110dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="5dp"
+        app:layout_constraintBottom_toTopOf="@+id/spotify_recyclerview"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/spotify_search_button"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/spotify_search_edittext"
+        android:layout_width="0dp"
+        android:layout_height="41dp"
+        android:layout_marginEnd="2dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:ems="10"
+        android:hint="search on spotify"
+        android:inputType="textPersonName"
+        android:paddingLeft="5dp"
+        android:textColor="@color/spotify_green"
+        android:textColorHint="@color/spotify_gray"
+        android:textSize="16sp"
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+        app:layout_constraintBottom_toTopOf="@+id/spotify_recyclerview"
+        app:layout_constraintEnd_toStartOf="@+id/spotify_search_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="2dp"
+        android:layout_marginBottom="7dp"
+        android:layout_marginEnd="2dp"
+        android:layout_marginStart="2dp"
+        android:background="@color/spotify_green"
+        app:layout_constraintBottom_toBottomOf="@+id/spotify_search_edittext"
+        app:layout_constraintEnd_toEndOf="@+id/spotify_search_edittext"
+        app:layout_constraintStart_toStartOf="@+id/spotify_search_edittext" />
+
+    <Button
+        android:id="@+id/spotify_search_button"
+        android:layout_width="60dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginEnd="2dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/spotify_search_button_drawable"
+        android:text="Search"
+        android:textColor="@color/spotify_green"
+        app:layout_constraintBottom_toTopOf="@+id/spotify_recyclerview"
+        app:layout_constraintEnd_toStartOf="@+id/spotify_search_spinner"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/spotify_search_edittext"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/spotify_recyclerview"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spotify_search_edittext"
+        tools:listitem="@layout/spotify_search_item">
+
+    </android.support.v7.widget.RecyclerView>
+</android.support.constraint.ConstraintLayout>

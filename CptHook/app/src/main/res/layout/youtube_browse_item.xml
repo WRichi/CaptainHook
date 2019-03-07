@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/youtube_thumbnail_imageview"
+        android:layout_width="160dp"
+        android:layout_height="90dp"
+        android:layout_marginBottom="6dp"
+        android:layout_marginTop="6dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_launcher_background" />
+
+    <TextView
+        android:id="@+id/youtube_title_textview"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="2dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="10dp"
+        android:ellipsize="end"
+        android:gravity="left"
+        android:maxLines="3"
+        android:singleLine="false"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@+id/youtube_channel_textview"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/youtube_thumbnail_imageview"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Title" />
+
+    <TextView
+        android:id="@+id/youtube_channel_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:textColor="@color/youtube_gray"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@+id/youtube_upload_date_textview"
+        app:layout_constraintStart_toEndOf="@+id/youtube_thumbnail_imageview"
+        tools:text="Channel" />
+
+    <TextView
+        android:id="@+id/youtube_upload_date_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:text="TextView"
+        android:textColor="@color/youtube_gray"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/youtube_thumbnail_imageview"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/youtube_thumbnail_imageview"
+        tools:text="Date" />
+
+</android.support.constraint.ConstraintLayout>
