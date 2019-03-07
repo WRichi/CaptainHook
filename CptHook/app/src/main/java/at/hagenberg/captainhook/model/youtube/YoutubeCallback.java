@@ -5,4 +5,5 @@ import com.google.api.services.youtube.model.SearchListResponse;
 
 public interface YoutubeCallback {
     void onSearchResult(SearchListResponse searchListResponse);
+    void onError(String message);
 }

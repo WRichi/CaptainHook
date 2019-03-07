@@ -10,6 +10,7 @@ import java.io.IOException;
 public class YoutubeSearchAsyncTask extends AsyncTask<YouTube.Search.List, Void, SearchListResponse > {
 
     YoutubeCallback mYoutubeCallback;
+    Exception e = null;
 
     public YoutubeSearchAsyncTask(YoutubeCallback mYoutubeCallback) {
         this.mYoutubeCallback = mYoutubeCallback;
@@ -21,13 +22,18 @@ public class YoutubeSearchAsyncTask extends AsyncTask<YouTube.Search.List, Void,
             return lists[0].execute();
         } catch (IOException e) {
             e.printStackTrace();
+            this.e = e;
+            return null;
         }
-        return null;
     }
 
     @Override
     protected void onPostExecute(SearchListResponse searchListResponse) {
         super.onPostExecute(searchListResponse);
-        mYoutubeCallback.onSearchResult(searchListResponse);
+        if(searchListResponse!= null){
+            mYoutubeCallback.onSearchResult(searchListResponse);
+        }else{
+            mYoutubeCallback.onError(e.getMessage());
+        }
     }
 }

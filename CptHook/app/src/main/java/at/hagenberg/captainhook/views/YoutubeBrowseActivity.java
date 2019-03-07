@@ -129,6 +129,12 @@ public class YoutubeBrowseActivity extends AppCompatActivity {
                 recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                 recyclerView.setAdapter(recyclerViewAdapter);
             }
+
+            @Override
+            public void onError(String message) {
+                Toast.makeText(getApplicationContext(), "Error: API Data Usage Limit Exceeded", Toast.LENGTH_SHORT).show();
+                YoutubeBrowseActivity.this.finish();
+            }
         });
     }
 
