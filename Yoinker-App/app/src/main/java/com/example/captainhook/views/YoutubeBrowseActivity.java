@@ -11,6 +11,8 @@ import android.text.SpannableString;
 import android.text.format.DateFormat;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,6 +41,10 @@ public class YoutubeBrowseActivity extends AppCompatActivity {
 
     private final String TAG = getClass().getName();
     YoutubeViewModel youtubeViewModel;
+    public String currentquery = "";
+    public int queryCount = 0;
+    ArrayList<String> queryList = null;
+    ArrayList<String> downloadList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,25 +59,45 @@ public class YoutubeBrowseActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(true);
 
         Bundle b = getIntent().getExtras();
-        final String query = b.getString("query");
+        if(b.containsKey("query")){
+            currentquery = b.getString("query");
+            queryList = new ArrayList<>();
+            queryList.add(currentquery);
+        }else{
+            queryList = b.getStringArrayList("queryList");
+            currentquery = queryList.get(0);
+        }
 
-        TextView youtubeQueryTextView = findViewById(R.id.youtube_query_textview);
-        youtubeQueryTextView.setText("\""+query+"\"");
+        searchYoutubeStep();
 
+        Button skipButton = findViewById(R.id.youtube_skip_button);
+        skipButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                next();
+            }
+        });
+
+    }
+
+    public void searchYoutubeStep(){
         youtubeViewModel = ViewModelProviders.of(this).get(YoutubeViewModel.class);
-        youtubeViewModel.browseYoutube(query, new YoutubeCallback() {
+        youtubeViewModel.browseYoutube(currentquery, new YoutubeCallback() {
             @Override
             public void onSearchResult(SearchListResponse searchListResponse) {
                 TextView progessText = findViewById(R.id.youtube_queue_progress_textview);
-                progessText.setText("1/1");
+                progessText.setText((queryCount+1)+"/"+queryList.size());
+
+                TextView youtubeQueryTextView = findViewById(R.id.youtube_query_textview);
+                youtubeQueryTextView.setText("\""+currentquery+"\"");
 
                 Iterator<SearchResult> iteratorSearchResults = searchListResponse.getItems().iterator();
                 if (!iteratorSearchResults.hasNext()) {
                     Log.d(TAG, " There aren't any results for your query.");
-                    Toast.makeText(getApplicationContext(), "No results for: " + query, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "No results for: " + currentquery, Toast.LENGTH_SHORT).show();
                 }
 
-                ArrayList<YoutubeBrowseModel> datamodels = new ArrayList<>();
+                final ArrayList<YoutubeBrowseModel> datamodels = new ArrayList<>();
                 while (iteratorSearchResults.hasNext()) {
 
                     SearchResult singleVideo = iteratorSearchResults.next();
@@ -85,10 +111,12 @@ public class YoutubeBrowseActivity extends AppCompatActivity {
                 }
 
                 //adapter
-                YoutubeRecyclerViewAdapter recyclerViewAdapter = new YoutubeRecyclerViewAdapter(datamodels, new ClickListener() {
+                final YoutubeRecyclerViewAdapter recyclerViewAdapter = new YoutubeRecyclerViewAdapter(datamodels, new ClickListener() {
                     @Override
                     public void onPositionClicked(int position) {
-                        Toast.makeText(getApplicationContext(), "Result at pos: "+ position + "clicked", Toast.LENGTH_SHORT).show();
+                        YoutubeBrowseModel youtubeBrowseModel = datamodels.get(position);
+                        downloadList.add(youtubeBrowseModel.getId());
+                        next();
                     }
 
                     @Override
@@ -102,10 +130,20 @@ public class YoutubeBrowseActivity extends AppCompatActivity {
                 recyclerView.setAdapter(recyclerViewAdapter);
             }
         });
+    }
 
-        TextView progessText = findViewById(R.id.youtube_queue_progress_textview);
-        progessText.setText("1/1");
+    public void next(){
+        queryCount++;
+        if(queryCount<queryList.size()){
+            currentquery = queryList.get(queryCount);
+            searchYoutubeStep();
+        }else{
+            startDownload();
+        }
+    }
 
+    public void startDownload(){
+        Log.d(TAG, "start download");
     }
 
     private String getDate(long time) {
@@ -114,4 +152,6 @@ public class YoutubeBrowseActivity extends AppCompatActivity {
         String date = DateFormat.format("dd.MM.yyyy", cal).toString();
         return date;
     }
+
+
 }

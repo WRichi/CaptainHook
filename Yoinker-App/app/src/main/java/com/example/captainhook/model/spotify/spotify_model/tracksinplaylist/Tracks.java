@@ -1,9 +1,7 @@
 
-package com.example.captainhook.model.spotify.spotify_model;
+package com.example.captainhook.model.spotify.spotify_model.tracksinplaylist;
 
 import java.util.List;
-
-import com.example.captainhook.model.spotify.spotify_model.track.Item;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -20,7 +18,7 @@ public class Tracks {
     private Integer limit;
     @SerializedName("next")
     @Expose
-    private String next;
+    private Object next;
     @SerializedName("offset")
     @Expose
     private Integer offset;
@@ -55,11 +53,11 @@ public class Tracks {
         this.limit = limit;
     }
 
-    public String getNext() {
+    public Object getNext() {
         return next;
     }
 
-    public void setNext(String next) {
+    public void setNext(Object next) {
         this.next = next;
     }
 

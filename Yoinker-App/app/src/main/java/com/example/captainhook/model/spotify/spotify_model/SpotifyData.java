@@ -18,4 +18,17 @@ public class SpotifyData {
         this.tracks = tracks;
     }
 
+    @SerializedName("playlists")
+    @Expose
+    private Playlists playlists;
+
+    public Playlists getPlaylists() {
+        return playlists;
+    }
+
+    public void setPlaylists(Playlists playlists) {
+        this.playlists = playlists;
+    }
+
+
 }

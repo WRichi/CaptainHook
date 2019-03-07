@@ -3,11 +3,11 @@ package com.example.captainhook.model.spotify.spotify_model;
 
 import java.util.List;
 
-import com.example.captainhook.model.spotify.spotify_model.track.Item;
+import com.example.captainhook.model.spotify.spotify_model.playlist.Item;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Tracks {
+public class Playlists {
 
     @SerializedName("href")
     @Expose

@@ -1,7 +1,12 @@
 
-package com.example.captainhook.model.spotify.spotify_model;
+package com.example.captainhook.model.spotify.spotify_model.track;
 
 import java.util.List;
+
+import com.example.captainhook.model.spotify.spotify_model.Album;
+import com.example.captainhook.model.spotify.spotify_model.Artist_;
+import com.example.captainhook.model.spotify.spotify_model.ExternalIds;
+import com.example.captainhook.model.spotify.spotify_model.ExternalUrls___;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 

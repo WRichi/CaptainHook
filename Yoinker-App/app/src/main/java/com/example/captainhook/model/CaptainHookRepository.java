@@ -12,6 +12,7 @@ import com.example.captainhook.model.entries.EntryDao;
 import com.example.captainhook.model.entries.EntryDatabase;
 import com.example.captainhook.model.spotify.SpotifyAccessTokenCallback;
 import com.example.captainhook.model.spotify.SpotifyDataSource;
+import com.example.captainhook.model.spotify.SpotifyGetTracksFromPlaylistCallback;
 import com.example.captainhook.model.spotify.SpotifySearchResultCallback;
 import com.example.captainhook.model.spotify.SpotifySearchType;
 import com.example.captainhook.model.spotify.spotify_model.AccessToken;
@@ -62,6 +63,20 @@ public class CaptainHookRepository {
                 public void onAccessTokenRecieved(AccessToken accessToken) {
                     CaptainHookRepository.this.accessToken = accessToken;
                     spotifyDataSource.searchSpotify(query, searchType, accessToken, resultCallback);
+                }
+            });
+        }
+    }
+
+    public void getTracks(final String url, final SpotifyGetTracksFromPlaylistCallback resultCallback){
+        if(accessToken != null && accessToken.getExpiresIn() != 0){
+            spotifyDataSource.getTracksForUrl(url, accessToken, resultCallback);
+        }else{
+            spotifyDataSource.getAccessToken(new SpotifyAccessTokenCallback() {
+                @Override
+                public void onAccessTokenRecieved(AccessToken accessToken) {
+                    CaptainHookRepository.this.accessToken = accessToken;
+                    spotifyDataSource.getTracksForUrl(url, accessToken, resultCallback);
                 }
             });
         }

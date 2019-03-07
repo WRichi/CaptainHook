@@ -1,11 +1,10 @@
 package com.example.captainhook.model.spotify;
 
-import android.app.Service;
 import android.util.Log;
 
 import com.example.captainhook.model.spotify.spotify_model.AccessToken;
-import com.example.captainhook.model.spotify.spotify_model.Item;
 import com.example.captainhook.model.spotify.spotify_model.SpotifyData;
+import com.example.captainhook.model.spotify.spotify_model.tracksinplaylist.Tracks;
 
 import java.util.Base64;
 
@@ -71,5 +70,30 @@ public class SpotifyDataSource{
                 Log.d(TAG, t.getMessage());
             }
         });
+    }
+
+    public void getTracksForUrl(String url, AccessToken accessToken, final SpotifyGetTracksFromPlaylistCallback resultCallback){
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(SPOTIFY_WEB_API_ADRESS)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        SpotifyService service = retrofit.create(SpotifyService.class);
+        Call<Tracks> accessTokenCall = service.getTracks(url,"Bearer " + accessToken.getAccessToken());
+
+        Callback<Tracks> spotifyDataCallback = new Callback<Tracks>() {
+            @Override
+            public void onResponse(Call<Tracks> call, Response<Tracks> response) {
+               Tracks tracks = response.body();
+                resultCallback.onTrackResult(tracks);
+            }
+
+            @Override
+            public void onFailure(Call<Tracks> call, Throwable t) {
+                Log.d(TAG, t.getMessage());
+            }
+        };
+
+        accessTokenCall.enqueue(spotifyDataCallback);
     }
 }
