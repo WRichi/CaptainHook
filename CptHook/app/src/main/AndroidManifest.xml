@@ -30,8 +30,6 @@
         <activity android:name=".views.HistoryActivity"
             android:parentActivityName=".views.SpotifySearchActivity"/>
         <activity android:name=".views.YoutubeBrowseActivity"/>
-        <activity android:name=".views.HistoryActivity"></activity>
-        <activity android:name=".views.YoutubeBrowseActivity"></activity>
         <service
             android:name=".model.youtube.YoutubeDownloadJobService"
             android:label="YouTube Download Service"
