@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class EntryAdapter extends RecyclerView.Adapter<EntryAdapter.EntryHolder> {
+public class HistoryRecyclerViewAdapter extends RecyclerView.Adapter<HistoryRecyclerViewAdapter.EntryHolder> {
 
     private List<Entry> entries = new ArrayList<>();
     private OnItemClickListener listener;
@@ -25,7 +25,7 @@ public class EntryAdapter extends RecyclerView.Adapter<EntryAdapter.EntryHolder>
     // context for GlideApp
     private Context context;
 
-    public EntryAdapter(Context context) {
+    public HistoryRecyclerViewAdapter(Context context) {
         this.context = context;
     }
 
@@ -42,6 +42,7 @@ public class EntryAdapter extends RecyclerView.Adapter<EntryAdapter.EntryHolder>
         Entry currentEntry = entries.get(i);
         entryHolder.textViewtitle.setText(currentEntry.getTitle());
         entryHolder.textViewinterpret.setText(currentEntry.getInterpret());
+        entryHolder.textViewAlbum.setText(currentEntry.getAlbum());
         // Load Image with glide
         GlideApp.with(context)
                 .load(currentEntry.getThumbnail_link())
@@ -61,17 +62,18 @@ public class EntryAdapter extends RecyclerView.Adapter<EntryAdapter.EntryHolder>
         notifyDataSetChanged();
     }
 
-
     class EntryHolder extends RecyclerView.ViewHolder {
         private TextView textViewtitle;
         private TextView textViewinterpret;
         private ImageView imageViewthumbnail;
+        private TextView textViewAlbum;
 
         public EntryHolder(@NonNull View itemView) {
             super(itemView);
-            textViewtitle = itemView.findViewById(R.id.text_view_title);
-            textViewinterpret = itemView.findViewById(R.id.text_view_interpret);
-            imageViewthumbnail = itemView.findViewById(R.id.image_view_thumbnail);
+            textViewtitle = itemView.findViewById(R.id.history_title_textview);
+            textViewinterpret = itemView.findViewById(R.id.history_interpret_textview);
+            textViewAlbum = itemView.findViewById(R.id.history_album_textview);
+            imageViewthumbnail = itemView.findViewById(R.id.history_thumbnail_imageview);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

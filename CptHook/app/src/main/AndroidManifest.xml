@@ -10,9 +10,9 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/captainhook_icon"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/captainhook_icon_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
@@ -25,8 +25,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".views.HistoryActivity"></activity>
-        <activity android:name=".views.YoutubeBrowseActivity"></activity>
+        <activity android:name=".views.HistoryActivity"
+            android:parentActivityName=".views.SpotifySearchActivity"/>
+        <activity android:name=".views.YoutubeBrowseActivity"/>
     </application>
 
 </manifest>
