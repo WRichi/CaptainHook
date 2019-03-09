@@ -1,8 +1,10 @@
 package at.hagenberg.captainhook.model;
 
 import android.app.Application;
+import android.content.Context;
 import android.os.AsyncTask;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.arch.lifecycle.LiveData;
@@ -18,6 +20,7 @@ import at.hagenberg.captainhook.model.spotify.SpotifySearchType;
 import at.hagenberg.captainhook.model.spotify.spotify_model.AccessToken;
 import at.hagenberg.captainhook.model.youtube.YoutubeCallback;
 import at.hagenberg.captainhook.model.youtube.YoutubeDataSource;
+import at.hagenberg.captainhook.model.youtube.YoutubeDownloadService;
 
 public class CaptainHookRepository {
 
@@ -132,5 +135,9 @@ public class CaptainHookRepository {
             entryDao.deleteAllEntries();
             return null;
         }
+    }
+
+    public void downloadYoutubeSongs(ArrayList<Entry> _ids, Context context){
+        new YoutubeDownloadService(_ids, context).downloadSongs();
     }
 }

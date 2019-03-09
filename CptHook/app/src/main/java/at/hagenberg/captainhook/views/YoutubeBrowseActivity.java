@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import at.hagenberg.captainhook.R;
+import at.hagenberg.captainhook.model.entries.Entry;
 import at.hagenberg.captainhook.model.youtube.YoutubeBrowseModel;
 import at.hagenberg.captainhook.model.youtube.YoutubeCallback;
 import at.hagenberg.captainhook.viewmodels.SpotifyViewModel;
@@ -41,10 +42,10 @@ public class YoutubeBrowseActivity extends AppCompatActivity {
 
     private final String TAG = getClass().getName();
     YoutubeViewModel youtubeViewModel;
-    public String currentquery = "";
+    public Entry currentquery;
     public int queryCount = 0;
-    ArrayList<String> queryList = null;
-    ArrayList<String> downloadList = new ArrayList<>();
+    ArrayList<Entry> queryList = null;
+    ArrayList<Entry> downloadList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,13 +60,14 @@ public class YoutubeBrowseActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(true);
 
         Bundle b = getIntent().getExtras();
-        if(b.containsKey("query")){
-            currentquery = b.getString("query");
+        if (b.containsKey("query")) {
+            currentquery = b.getParcelable("query");
             queryList = new ArrayList<>();
             queryList.add(currentquery);
-        }else{
-            queryList = b.getStringArrayList("queryList");
+        } else {
+            queryList = b.getParcelableArrayList("queryList");
             currentquery = queryList.get(0);
+            Log.d("Query 1: ", currentquery.getTitle() + " " + currentquery.getInterpret());
         }
 
         searchYoutubeStep();
@@ -82,14 +84,14 @@ public class YoutubeBrowseActivity extends AppCompatActivity {
 
     public void searchYoutubeStep(){
         youtubeViewModel = ViewModelProviders.of(this).get(YoutubeViewModel.class);
-        youtubeViewModel.browseYoutube(currentquery, new YoutubeCallback() {
+        youtubeViewModel.browseYoutube(currentquery.getTitle() + " " + currentquery.getInterpret(), new YoutubeCallback() {
             @Override
             public void onSearchResult(SearchListResponse searchListResponse) {
                 TextView progessText = findViewById(R.id.youtube_queue_progress_textview);
                 progessText.setText((queryCount+1)+"/"+queryList.size());
 
                 TextView youtubeQueryTextView = findViewById(R.id.youtube_query_textview);
-                youtubeQueryTextView.setText("\""+currentquery+"\"");
+                youtubeQueryTextView.setText("\""+currentquery.getTitle() + " " + currentquery.getInterpret()+"\"");
 
                 Iterator<SearchResult> iteratorSearchResults = searchListResponse.getItems().iterator();
                 if (!iteratorSearchResults.hasNext()) {
@@ -115,7 +117,8 @@ public class YoutubeBrowseActivity extends AppCompatActivity {
                     @Override
                     public void onPositionClicked(int position) {
                         YoutubeBrowseModel youtubeBrowseModel = datamodels.get(position);
-                        downloadList.add(youtubeBrowseModel.getId());
+                        currentquery.setYt_id(youtubeBrowseModel.getId());
+                        downloadList.add(currentquery);
                         next();
                     }
 
@@ -150,6 +153,7 @@ public class YoutubeBrowseActivity extends AppCompatActivity {
 
     public void startDownload(){
         Log.d(TAG, "start download");
+        youtubeViewModel.downloadYoutubeSongs(downloadList, getApplicationContext());
     }
 
     private String getDate(long time) {

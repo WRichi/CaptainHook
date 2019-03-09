@@ -1,10 +1,13 @@
 package at.hagenberg.captainhook.views;
 
+import android.Manifest;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Environment;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -24,6 +27,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import at.hagenberg.captainhook.R;
+import at.hagenberg.captainhook.model.entries.Entry;
 import at.hagenberg.captainhook.model.spotify.SpotifyGetTracksFromPlaylistCallback;
 import at.hagenberg.captainhook.model.spotify.SpotifySearchResultCallback;
 import at.hagenberg.captainhook.model.spotify.SpotifySearchType;
@@ -38,6 +42,7 @@ import at.hagenberg.captainhook.views.adapter.ClickListener;
 import at.hagenberg.captainhook.views.adapter.SpotifyRecyclerViewAdapter;
 import at.hagenberg.captainhook.model.spotify.spotify_model.SpotifySearchModel;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,7 +56,7 @@ public class SpotifySearchActivity extends AppCompatActivity implements AdapterV
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_spotify_search);
-
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
 
         Spannable text = new SpannableString(getSupportActionBar().getTitle());
         text.setSpan(new ForegroundColorSpan(getColor(R.color.spotify_black)), 0, text.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
@@ -145,12 +150,13 @@ public class SpotifySearchActivity extends AppCompatActivity implements AdapterV
                                     if (currentResult == SpotifySearchType.TRACK) {
                                         Intent i = new Intent(SpotifySearchActivity.this, YoutubeBrowseActivity.class);
 
-                                        String query = spotifySearchModel.getName() + " " + spotifySearchModel.getArtists();
-                                        i.putExtra("query", query);
+                                        //String query = spotifySearchModel.getName() + " " + spotifySearchModel.getArtists();
+                                        Entry e = new Entry(spotifySearchModel.getName(), spotifySearchModel.getArtists(), spotifySearchModel.getAlbum(), spotifySearchModel.getCoverURL(), null, null);
+                                        i.putExtra("query", e);
                                         i.putExtra("total", 1);
                                         startActivity(i);
                                     } else if (currentResult == SpotifySearchType.PLAYLIST) {
-                                        final ArrayList<String> trackQueriesList = new ArrayList<>();
+                                        final ArrayList<Entry> trackQueriesList = new ArrayList<>();
                                         spotifyViewModel.getTracksForUrl(spotifySearchModel.getTracksURL(), new SpotifyGetTracksFromPlaylistCallback() {
 
                                             @Override
@@ -168,7 +174,8 @@ public class SpotifySearchActivity extends AppCompatActivity implements AdapterV
                                                         }
                                                         artist += artist_.getName();
                                                     }
-                                                    trackQueriesList.add(item.getTrack().getName() + " " + artist);
+                                                    Entry e = new Entry(item.getTrack().getName(), artist, item.getTrack().getAlbum().getName(), item.getTrack().getAlbum().getImages().get(0).getUrl(), null, null);
+                                                    trackQueriesList.add(e);
                                                 }
                                                 intent.putExtra("queryList", trackQueriesList);
                                                 startActivity(intent);

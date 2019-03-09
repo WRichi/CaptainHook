@@ -27,6 +27,9 @@ android {
         exclude 'META-INF/ASL2.0'
     }
 }
+repositories {
+    maven { url "https://jitpack.io" }
+}
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -66,4 +69,7 @@ dependencies {
     implementation 'com.google.http-client:google-http-client-android:1.28.0'
     implementation 'com.google.api-client:google-api-client-android:1.28.0'
     implementation 'com.google.api-client:google-api-client-gson:1.28.0'
+
+    //YT Extractor
+    implementation 'com.github.HaarigerHarald:android-youtubeExtractor:master-SNAPSHOT'
 }

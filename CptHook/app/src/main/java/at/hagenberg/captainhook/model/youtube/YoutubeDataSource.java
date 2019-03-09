@@ -20,7 +20,8 @@ import java.util.Iterator;
 public class YoutubeDataSource {
 
     private final String TAG = getClass().getName();
-    private final String API_KEY = "AIzaSyB9xpwEVIDJ3uRnpd6Gd8KBt_FlIVPWRp4";
+    //private final String API_KEY = "AIzaSyB9xpwEVIDJ3uRnpd6Gd8KBt_FlIVPWRp4";
+    private final String API_KEY = "AIzaSyCUPJ7-YKWYVfAZwwlRMtgJY_e774vBjpg";
     private final Long MAX_RESULTS = Long.valueOf(10);
 
     public void browseYoutube(String query, YoutubeCallback callback) {

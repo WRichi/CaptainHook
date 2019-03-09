@@ -8,7 +8,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 
-@Database(entities = {Entry.class}, version = 1)
+@Database(entities = {Entry.class}, version = 2)
 public abstract class EntryDatabase extends RoomDatabase {
 
     private static EntryDatabase instance;
@@ -51,9 +51,9 @@ public abstract class EntryDatabase extends RoomDatabase {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            entryDao.insert(new Entry("Jan Ulrich", "Genz", "https://asdhkfladsgasdfasdf.com/jdsalkgkajsg.png", "C/Users/Me/Music/video.mp3"));
-            entryDao.insert(new Entry("Bohemian Rapsody", "Queen", "https://asdhkfladsgasdfasdf.com/jdsalkgkajsg.png", "C/Users/Me/Music/video.mp3"));
-            entryDao.insert(new Entry("Bleed it out", "Linkin Park", "https://asdhkfladsgasdfasdf.com/jdsalkgkajsg.png", "C/Users/Me/Music/video.mp3"));
+            entryDao.insert(new Entry("Jan Ulrich", "Genz", "Ich bin unschuldig", "https://asdhkfladsgasdfasdf.com/jdsalkgkajsg.png", "C/Users/Me/Music/video.mp3", "1k4c7MM2pEk"));
+            entryDao.insert(new Entry("Bohemian Rapsody", "Queen", "Meddler", "https://asdhkfladsgasdfasdf.com/jdsalkgkajsg.png", "C/Users/Me/Music/video.mp3", "fJ9rUzIMcZQ"));
+            entryDao.insert(new Entry("Bleed it out", "Linkin Park","Hybrid Theory", "https://asdhkfladsgasdfasdf.com/jdsalkgkajsg.png", "C/Users/Me/Music/video.mp3", "OnuuYcqhzCE"));
             return null;
         }
     }
