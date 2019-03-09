@@ -42,7 +42,6 @@ import at.hagenberg.captainhook.views.adapter.YoutubeRecyclerViewAdapter;
 
 public class YoutubeBrowseActivity extends AppCompatActivity {
 
-
     private final String TAG = getClass().getName();
     YoutubeViewModel youtubeViewModel;
     public Entry currentquery;
@@ -166,6 +165,8 @@ public class YoutubeBrowseActivity extends AppCompatActivity {
                     youtubeViewModel.downloadYoutubeSongs(downloadList, getApplicationContext(), downloadNow);
                     Intent i = new Intent(YoutubeBrowseActivity.this, SpotifySearchActivity.class);
                     startActivity(i);
+                    Toast.makeText(getApplicationContext(), "Started Download.",
+                            Toast.LENGTH_SHORT).show();
                 }
             }).setNegativeButton("Later", new DialogInterface.OnClickListener() {
                 @Override
@@ -183,6 +184,8 @@ public class YoutubeBrowseActivity extends AppCompatActivity {
             youtubeViewModel.downloadYoutubeSongs(downloadList, getApplicationContext(), downloadNow);
             Intent i = new Intent(YoutubeBrowseActivity.this, SpotifySearchActivity.class);
             startActivity(i);
+            Toast.makeText(this, "Started Download.",
+                    Toast.LENGTH_SHORT).show();
         }
 
 

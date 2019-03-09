@@ -17,6 +17,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
+import at.hagenberg.captainhook.model.CaptainHookRepository;
 import at.hagenberg.captainhook.model.entries.Entry;
 import at.huber.youtubeExtractor.VideoMeta;
 import at.huber.youtubeExtractor.YouTubeExtractor;
@@ -24,16 +25,19 @@ import at.huber.youtubeExtractor.YtFile;
 
 public class YoutubeDownloadJobService extends JobService {
 
+    CaptainHookRepository repository;
     ArrayList<Entry> entries;
     @Override
     public boolean onStartJob(JobParameters params) {
         Log.d("Download", "Downloading via Job Scheduler now.");
+        repository = new CaptainHookRepository(getApplication());
         String json = params.getExtras().getString("ids");
         Gson g = new Gson();
         entries = g.fromJson(json, new TypeToken<List<Entry>>(){}.getType());
         for (Entry entry: entries) {
             String yt_id = "https://www.youtube.com/watch?v="+entry.getYt_id();
             getYoutubeDownloadUrl(yt_id);
+            repository.insertEntry(entry);
         }
         return false;
     }
