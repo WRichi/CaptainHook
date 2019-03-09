@@ -151,7 +151,7 @@ public class SpotifySearchActivity extends AppCompatActivity implements AdapterV
                                         Intent i = new Intent(SpotifySearchActivity.this, YoutubeBrowseActivity.class);
 
                                         //String query = spotifySearchModel.getName() + " " + spotifySearchModel.getArtists();
-                                        Entry e = new Entry(spotifySearchModel.getName(), spotifySearchModel.getArtists(), spotifySearchModel.getAlbum(), spotifySearchModel.getCoverURL(), null, null);
+                                        Entry e = new Entry(spotifySearchModel.getName(), spotifySearchModel.getArtists(), spotifySearchModel.getAlbum(), spotifySearchModel.getCoverURL(),  null);
                                         i.putExtra("query", e);
                                         i.putExtra("total", 1);
                                         startActivity(i);
@@ -174,7 +174,7 @@ public class SpotifySearchActivity extends AppCompatActivity implements AdapterV
                                                         }
                                                         artist += artist_.getName();
                                                     }
-                                                    Entry e = new Entry(item.getTrack().getName(), artist, item.getTrack().getAlbum().getName(), item.getTrack().getAlbum().getImages().get(0).getUrl(), null, null);
+                                                    Entry e = new Entry(item.getTrack().getName(), artist, item.getTrack().getAlbum().getName(), item.getTrack().getAlbum().getImages().get(0).getUrl(), null);
                                                     trackQueriesList.add(e);
                                                 }
                                                 intent.putExtra("queryList", trackQueriesList);

@@ -51,9 +51,9 @@ public abstract class EntryDatabase extends RoomDatabase {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            entryDao.insert(new Entry("Jan Ulrich", "Genz", "Ich bin unschuldig", "https://asdhkfladsgasdfasdf.com/jdsalkgkajsg.png", "C/Users/Me/Music/video.mp3", "1k4c7MM2pEk"));
-            entryDao.insert(new Entry("Bohemian Rapsody", "Queen", "Meddler", "https://asdhkfladsgasdfasdf.com/jdsalkgkajsg.png", "C/Users/Me/Music/video.mp3", "fJ9rUzIMcZQ"));
-            entryDao.insert(new Entry("Bleed it out", "Linkin Park","Hybrid Theory", "https://asdhkfladsgasdfasdf.com/jdsalkgkajsg.png", "C/Users/Me/Music/video.mp3", "OnuuYcqhzCE"));
+            entryDao.insert(new Entry("Jan Ulrich", "Genz", "Ich bin unschuldig", "https://asdhkfladsgasdfasdf.com/jdsalkgkajsg.png", "1k4c7MM2pEk"));
+            entryDao.insert(new Entry("Bohemian Rapsody", "Queen", "Meddler", "https://asdhkfladsgasdfasdf.com/jdsalkgkajsg.png", "fJ9rUzIMcZQ"));
+            entryDao.insert(new Entry("Bleed it out", "Linkin Park","Hybrid Theory", "https://asdhkfladsgasdfasdf.com/jdsalkgkajsg.png", "OnuuYcqhzCE"));
             return null;
         }
     }

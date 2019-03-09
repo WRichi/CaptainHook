@@ -24,15 +24,12 @@ public class Entry implements Parcelable {
 
     private String thumbnail_link;
 
-    private String path_to_file;
-
     private String yt_id;
 
-    public Entry(String title, String interpret, String album, String thumbnail_link, String path_to_file, String yt_id) {
+    public Entry(String title, String interpret, String album, String thumbnail_link, String yt_id) {
         this.title = title;
         this.interpret = interpret;
         this.thumbnail_link = thumbnail_link;
-        this.path_to_file = path_to_file;
         this.album = album;
         this.yt_id = yt_id;
     }
@@ -43,10 +40,6 @@ public class Entry implements Parcelable {
 
     public void setYt_id(String yt_id) {
         this.yt_id = yt_id;
-    }
-
-    public void setPath_to_file(String path_to_file) {
-        this.path_to_file = path_to_file;
     }
 
     public int getId() {
@@ -65,10 +58,6 @@ public class Entry implements Parcelable {
         return thumbnail_link;
     }
 
-    public String getPath_to_file() {
-        return path_to_file;
-    }
-
     public String getAlbum() {
         return album;
     }
@@ -82,7 +71,6 @@ public class Entry implements Parcelable {
         interpret = in.readString();
         album = in.readString();
         thumbnail_link = in.readString();
-        path_to_file = in.readString();
         yt_id = in.readString();
     }
 
@@ -97,7 +85,6 @@ public class Entry implements Parcelable {
         dest.writeString(interpret);
         dest.writeString(album);
         dest.writeString(thumbnail_link);
-        dest.writeString(path_to_file);
         dest.writeString(yt_id);
     }
 

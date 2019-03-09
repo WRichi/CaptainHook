@@ -41,13 +41,5 @@ public class HistoryActivity extends AppCompatActivity {
                 adapter.setEntries(entries);
             }
         });
-
-        adapter.setOnItemClickListener(new EntryAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(Entry entry) {
-                // Open file or open file manager with path to file
-                Toast.makeText(HistoryActivity.this, entry.getPath_to_file(), Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 }
