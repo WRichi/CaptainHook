@@ -6,12 +6,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.Toast;
 
 import at.hagenberg.captainhook.model.entries.Entry;
 import at.hagenberg.captainhook.viewmodels.EntryViewModel;
 import at.hagenberg.captainhook.R;
-import at.hagenberg.captainhook.views.adapter.EntryAdapter;
+import at.hagenberg.captainhook.views.adapter.HistoryRecyclerViewAdapter;
 
 import java.util.List;
 
@@ -27,11 +26,11 @@ public class HistoryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
 
-        RecyclerView recyclerView = findViewById(R.id.history_recycler_view);
+        RecyclerView recyclerView = findViewById(R.id.history_recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
 
-        final EntryAdapter adapter = new EntryAdapter(getApplicationContext());
+        final HistoryRecyclerViewAdapter adapter = new HistoryRecyclerViewAdapter(getApplicationContext());
         recyclerView.setAdapter(adapter);
 
         entryViewModel = ViewModelProviders.of(this).get(EntryViewModel.class);
