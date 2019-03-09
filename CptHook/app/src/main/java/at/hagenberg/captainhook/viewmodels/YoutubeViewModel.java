@@ -24,7 +24,7 @@ public class YoutubeViewModel extends AndroidViewModel{
         repository.browseYoutube(query, callback);
     }
 
-    public void downloadYoutubeSongs(ArrayList<Entry> ids, Context context){
-        repository.downloadYoutubeSongs(ids, context);
+    public void downloadYoutubeSongs(ArrayList<Entry> ids, Context context, Boolean downloadNow){
+        repository.downloadYoutubeSongs(ids, context, downloadNow);
     }
 }

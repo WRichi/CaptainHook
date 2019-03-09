@@ -1,9 +1,15 @@
 package at.hagenberg.captainhook.views;
 
+import android.app.AlertDialog;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
-import android.support.v7.app.AppCompatActivity;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Spannable;
@@ -16,26 +22,23 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import at.hagenberg.captainhook.R;
-import at.hagenberg.captainhook.model.entries.Entry;
-import at.hagenberg.captainhook.model.youtube.YoutubeBrowseModel;
-import at.hagenberg.captainhook.model.youtube.YoutubeCallback;
-import at.hagenberg.captainhook.viewmodels.SpotifyViewModel;
-import at.hagenberg.captainhook.viewmodels.YoutubeViewModel;
-import at.hagenberg.captainhook.views.adapter.ClickListener;
-import at.hagenberg.captainhook.views.adapter.YoutubeRecyclerViewAdapter;
 import com.google.api.client.util.DateTime;
 import com.google.api.services.youtube.model.ResourceId;
 import com.google.api.services.youtube.model.SearchListResponse;
 import com.google.api.services.youtube.model.SearchResult;
 import com.google.api.services.youtube.model.Thumbnail;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Iterator;
-import java.util.Locale;
+
+import at.hagenberg.captainhook.R;
+import at.hagenberg.captainhook.model.entries.Entry;
+import at.hagenberg.captainhook.model.youtube.YoutubeBrowseModel;
+import at.hagenberg.captainhook.model.youtube.YoutubeCallback;
+import at.hagenberg.captainhook.viewmodels.YoutubeViewModel;
+import at.hagenberg.captainhook.views.adapter.ClickListener;
+import at.hagenberg.captainhook.views.adapter.YoutubeRecyclerViewAdapter;
 
 public class YoutubeBrowseActivity extends AppCompatActivity {
 
@@ -46,6 +49,7 @@ public class YoutubeBrowseActivity extends AppCompatActivity {
     public int queryCount = 0;
     ArrayList<Entry> queryList = null;
     ArrayList<Entry> downloadList = new ArrayList<>();
+    boolean downloadNow = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -152,8 +156,45 @@ public class YoutubeBrowseActivity extends AppCompatActivity {
     }
 
     public void startDownload(){
-        Log.d(TAG, "start download");
-        youtubeViewModel.downloadYoutubeSongs(downloadList, getApplicationContext());
+        if(!connectedToWifi()) {
+            Log.d(TAG, "start download");
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("You have no Wifi enabled. Do you want to start downloading or schedule for later?").setCancelable(false).setPositiveButton("Start now", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    downloadNow = true;
+                    youtubeViewModel.downloadYoutubeSongs(downloadList, getApplicationContext(), downloadNow);
+                    Intent i = new Intent(YoutubeBrowseActivity.this, SpotifySearchActivity.class);
+                    startActivity(i);
+                }
+            }).setNegativeButton("Later", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    downloadNow = false;
+                    dialog.cancel();
+                    youtubeViewModel.downloadYoutubeSongs(downloadList, getApplicationContext(), downloadNow);
+                    Intent i = new Intent(YoutubeBrowseActivity.this, SpotifySearchActivity.class);
+                    startActivity(i);
+                }
+            });
+            AlertDialog alert = builder.create();
+            alert.show();
+        }
+
+
+    }
+
+    boolean connectedToWifi(){
+        WifiManager wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+        if(wifiManager.isWifiEnabled()){
+            WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+            if(wifiInfo.getNetworkId() == -1){
+                return false;
+            }
+        }else{
+            return false;
+        }
+        return true;
     }
 
     private String getDate(long time) {

@@ -137,7 +137,7 @@ public class CaptainHookRepository {
         }
     }
 
-    public void downloadYoutubeSongs(ArrayList<Entry> _ids, Context context){
-        new YoutubeDownloadService(_ids, context).downloadSongs();
+    public void downloadYoutubeSongs(ArrayList<Entry> _ids, Context context, Boolean downloadNow){
+        new YoutubeDownloadService(_ids, context, downloadNow).downloadSongs();
     }
 }

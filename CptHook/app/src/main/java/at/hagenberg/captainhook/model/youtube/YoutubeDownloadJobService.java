@@ -1,62 +1,44 @@
 package at.hagenberg.captainhook.model.youtube;
 
 import android.app.DownloadManager;
-import android.app.job.JobInfo;
-import android.app.job.JobScheduler;
-import android.content.ComponentName;
+import android.app.job.JobParameters;
+import android.app.job.JobService;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Environment;
-import android.os.PersistableBundle;
 import android.util.Log;
 import android.util.SparseArray;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.File;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 
 import at.hagenberg.captainhook.model.entries.Entry;
 import at.huber.youtubeExtractor.VideoMeta;
 import at.huber.youtubeExtractor.YouTubeExtractor;
 import at.huber.youtubeExtractor.YtFile;
 
-public class YoutubeDownloadService {
+public class YoutubeDownloadJobService extends JobService {
 
-    private ArrayList<Entry> ids;
-    private Context context;
-    private int mJobID = 0;
-    private ComponentName mComponentName = new ComponentName("at.hagenberg.captainhook", "at.hagenberg.captainhook.model.youtube.YoutubeDownloadJobService");
-    private boolean downloadNow;
-
-    public YoutubeDownloadService(ArrayList<Entry> ids, Context context, Boolean downloadNow){
-        this.ids = ids;
-        this.context = context;
-        this.downloadNow = downloadNow;
-    }
-
-    public void downloadSongs(){
-        if(downloadNow){
-            Log.d("Download", "Downloading instantly.");
-            for (Entry entry: ids) {
-                String yt_id = "https://www.youtube.com/watch?v="+entry.getYt_id();
-                getYoutubeDownloadUrl(yt_id, context);
-            }
-        }else {
-            Log.d("Download", "Downloading via Job Scheduler.");
-            PersistableBundle persistableBundle = new PersistableBundle();
-            Gson g = new Gson();
-            String jsonIDS = g.toJson(ids);
-            persistableBundle.putString("ids", jsonIDS);
-            JobInfo DownloadTask = new JobInfo.Builder(mJobID++, mComponentName).setRequiredNetworkType(JobInfo.NETWORK_TYPE_UNMETERED).setExtras(persistableBundle).build();
-            JobScheduler jobScheduler =
-                    (JobScheduler) context.getSystemService(Context.JOB_SCHEDULER_SERVICE);
-            jobScheduler.schedule(DownloadTask);
+    ArrayList<Entry> entries;
+    @Override
+    public boolean onStartJob(JobParameters params) {
+        Log.d("Download", "Downloading via Job Scheduler now.");
+        String json = params.getExtras().getString("ids");
+        Gson g = new Gson();
+        entries = g.fromJson(json, new TypeToken<List<Entry>>(){}.getType());
+        for (Entry entry: entries) {
+            String yt_id = "https://www.youtube.com/watch?v="+entry.getYt_id();
+            getYoutubeDownloadUrl(yt_id);
         }
+        return false;
     }
-
-    private void getYoutubeDownloadUrl(String youtubeLink, final Context context) {
-        new YouTubeExtractor(context) {
+    private void getYoutubeDownloadUrl(String youtubeLink) {
+        new YouTubeExtractor(this) {
             @Override
             public void onExtractionComplete(SparseArray<YtFile> ytFiles, VideoMeta vMeta) {
                 if (ytFiles == null) {
@@ -80,7 +62,7 @@ public class YoutubeDownloadService {
                         request.allowScanningByMediaScanner();
                         request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
                         request.setDestinationInExternalPublicDir(Environment.DIRECTORY_MUSIC+ File.separator+"CptHook/", filename);
-                        DownloadManager manager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
+                        DownloadManager manager = (DownloadManager) getApplicationContext().getSystemService(Context.DOWNLOAD_SERVICE);
                         manager.enqueue(request);
                     }
                 }
@@ -88,4 +70,10 @@ public class YoutubeDownloadService {
         }.extract(youtubeLink, true,false);
     }
 
+    @Override
+    public boolean onStopJob(JobParameters params) {
+        Log.d("Job", "Job cancelled.");
+        jobFinished(params, true);
+        return false;
+    }
 }

@@ -7,6 +7,8 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+
 
     <application
         android:allowBackup="true"
@@ -27,6 +29,13 @@
         </activity>
         <activity android:name=".views.HistoryActivity"></activity>
         <activity android:name=".views.YoutubeBrowseActivity"></activity>
+        <service
+            android:name=".model.youtube.YoutubeDownloadJobService"
+            android:label="YouTube Download Service"
+            android:permission="android.permission.BIND_JOB_SERVICE" >
+
+        </service>
     </application>
+
 
 </manifest>
