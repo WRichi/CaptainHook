@@ -8,7 +8,7 @@
     android:background="@color/spotify_black">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/history_recyclerview"
+        android:id="@+id/history_recycler_view"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="5dp"

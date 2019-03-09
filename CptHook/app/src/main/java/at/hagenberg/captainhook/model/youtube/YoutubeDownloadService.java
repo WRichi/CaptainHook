@@ -1,5 +1,6 @@
 package at.hagenberg.captainhook.model.youtube;
 
+import android.app.Application;
 import android.app.DownloadManager;
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
@@ -16,13 +17,17 @@ import com.google.gson.Gson;
 import java.io.File;
 import java.util.ArrayList;
 
+import at.hagenberg.captainhook.model.CaptainHookRepository;
 import at.hagenberg.captainhook.model.entries.Entry;
+import at.hagenberg.captainhook.model.entries.EntryDao;
+import at.hagenberg.captainhook.model.entries.EntryDatabase;
 import at.huber.youtubeExtractor.VideoMeta;
 import at.huber.youtubeExtractor.YouTubeExtractor;
 import at.huber.youtubeExtractor.YtFile;
 
 public class YoutubeDownloadService {
 
+    CaptainHookRepository repository;
     private ArrayList<Entry> ids;
     private Context context;
     private int mJobID = 0;
@@ -33,6 +38,7 @@ public class YoutubeDownloadService {
         this.ids = ids;
         this.context = context;
         this.downloadNow = downloadNow;
+        repository = new CaptainHookRepository((Application) context.getApplicationContext());
     }
 
     public void downloadSongs(){
@@ -41,6 +47,7 @@ public class YoutubeDownloadService {
             for (Entry entry: ids) {
                 String yt_id = "https://www.youtube.com/watch?v="+entry.getYt_id();
                 getYoutubeDownloadUrl(yt_id, context);
+                repository.insertEntry(entry);
             }
         }else {
             Log.d("Download", "Downloading via Job Scheduler.");
