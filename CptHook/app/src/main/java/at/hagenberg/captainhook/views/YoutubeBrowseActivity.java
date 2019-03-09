@@ -181,6 +181,8 @@ public class YoutubeBrowseActivity extends AppCompatActivity {
             alert.show();
         }else{
             youtubeViewModel.downloadYoutubeSongs(downloadList, getApplicationContext(), downloadNow);
+            Intent i = new Intent(YoutubeBrowseActivity.this, SpotifySearchActivity.class);
+            startActivity(i);
         }
 
 
