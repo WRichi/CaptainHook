@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".views.HistoryActivity">
+    tools:context=".views.HistoryActivity"
+    android:background="@color/spotify_black">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/history_recyclerview"

@@ -1,9 +1,12 @@
 package at.hagenberg.captainhook.views.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -20,10 +23,11 @@ import java.util.List;
 public class HistoryRecyclerViewAdapter extends RecyclerView.Adapter<HistoryRecyclerViewAdapter.EntryHolder> {
 
     private List<Entry> entries = new ArrayList<>();
-    private OnItemClickListener listener;
 
     // context for GlideApp
     private Context context;
+
+    private int selectedPos = RecyclerView.NO_POSITION;
 
     public HistoryRecyclerViewAdapter(Context context) {
         this.context = context;
@@ -62,7 +66,7 @@ public class HistoryRecyclerViewAdapter extends RecyclerView.Adapter<HistoryRecy
         notifyDataSetChanged();
     }
 
-    class EntryHolder extends RecyclerView.ViewHolder {
+    class EntryHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView textViewtitle;
         private TextView textViewinterpret;
         private ImageView imageViewthumbnail;
@@ -75,23 +79,17 @@ public class HistoryRecyclerViewAdapter extends RecyclerView.Adapter<HistoryRecy
             textViewAlbum = itemView.findViewById(R.id.history_album_textview);
             imageViewthumbnail = itemView.findViewById(R.id.history_thumbnail_imageview);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    int position = getAdapterPosition();
-                    if (listener != null && position != RecyclerView.NO_POSITION) {
-                        listener.onItemClick(entries.get(position));
-                    }
-                }
-            });
+            itemView.setOnClickListener(this);
         }
-    }
 
-    public interface OnItemClickListener {
-        void onItemClick(Entry entry);
-    }
+        @Override
+        public void onClick(View view) {
+            int position = getAdapterPosition();
+            if (position == RecyclerView.NO_POSITION) {
+                return;
+            }
+        }
 
-    public void setOnItemClickListener(OnItemClickListener listener) {
-        this.listener = listener;
+
     }
 }
