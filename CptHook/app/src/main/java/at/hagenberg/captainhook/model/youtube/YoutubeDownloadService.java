@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Environment;
 import android.util.SparseArray;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import at.hagenberg.captainhook.model.entries.Entry;
@@ -53,10 +54,9 @@ public class YoutubeDownloadService {
                         request.setTitle(vMeta.getTitle());
                         request.allowScanningByMediaScanner();
                         request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-                        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, filename);
+                        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_MUSIC+File.separator+"CptHook/", filename);
                         DownloadManager manager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
                         manager.enqueue(request);
-
                     }
                 }
             }
