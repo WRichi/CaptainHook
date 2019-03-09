@@ -58,6 +58,12 @@ public class SpotifySearchActivity extends AppCompatActivity implements AdapterV
         setContentView(R.layout.activity_spotify_search);
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
 
+        File cptHookFolder = new File(Environment.getExternalStorageDirectory()+File.separator+"Music"+File.separator+"CptHook"+File.separator+"thumbnails");
+        if (!cptHookFolder.exists()) {
+            Log.d("mkdir", "Creating dir");
+            cptHookFolder.mkdirs();
+        }
+
         Spannable text = new SpannableString(getSupportActionBar().getTitle());
         text.setSpan(new ForegroundColorSpan(getColor(R.color.spotify_black)), 0, text.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
         getSupportActionBar().setTitle(text);
