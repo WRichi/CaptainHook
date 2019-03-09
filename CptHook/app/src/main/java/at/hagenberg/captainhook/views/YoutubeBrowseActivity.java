@@ -156,8 +156,8 @@ public class YoutubeBrowseActivity extends AppCompatActivity {
     }
 
     public void startDownload(){
+        Log.d(TAG, "start download");
         if(!connectedToWifi()) {
-            Log.d(TAG, "start download");
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setMessage("You have no Wifi enabled. Do you want to start downloading or schedule for later?").setCancelable(false).setPositiveButton("Start now", new DialogInterface.OnClickListener() {
                 @Override
@@ -179,6 +179,8 @@ public class YoutubeBrowseActivity extends AppCompatActivity {
             });
             AlertDialog alert = builder.create();
             alert.show();
+        }else{
+            youtubeViewModel.downloadYoutubeSongs(downloadList, getApplicationContext(), downloadNow);
         }
 
 
