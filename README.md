@@ -15,6 +15,7 @@ Project Requirements:
 * Glider &#9745; (downloading thumbnails - we also used Picasso)
 * Retrofit &#9745; (used for Spotify Web API requests)
 * JobScheduler &#9745; (user can schedule the download of songs when wifi is available - user only gets prompted if using a mobile connection)
+* Tests &#9745;
 
 APIs:
 * Spotify Web API
