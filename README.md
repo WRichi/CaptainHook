@@ -1,14 +1,21 @@
 # CaptainHook
-An app that searches songs or playlists on spotify and download them via youtube.
+An app that searches songs or playlists on spotify and downloads them via youtube.
+The app is called CaptainHook because it supports advanced piracy (Arr!).
 
-Features<br>
-MVVM<br>
-Room database to store downloaded songs and playlists (thumbnail link, Name (Interpret/ersteller der playlist), Album)<br>
-Search track or playlist in spotify<br>
-Show them in an RecyclerView<br>
-Click on an item and a new screen will be opened to search this track on youtube (or the first song of the playlist and subsequent ones)
-5-10 results in an recyclerview of the youtube search results<br>
-If a youtube search item is clicked, add it to the history, download it and store it in the database<br>
-If you chose an playlist before we go through each track in the playlist from spotify and search it in youtube to find the best video to download<br>
-Download thumbnails with Glider/Picasso (displaying spotify and youtube thumbnails)<br>
-Retrofit for network communication (JobScheduler - spotify, youtube and jdownloader requests)<br>
+Features:<br>
+* searching tracks/playlist on spotify
+* youtube browsing queue with the selected tracks to select files to download
+* downloading songs
+* displaying downloaded songs in history
+
+Project Requirements:
+* MVVM &#9745;
+* ROOM database &#9745; (storing downloaded songs in history)
+* RecyclerView &#9745; (in every activity)
+* Glider &#9745; (downloading thumbnails - we also used Picasso)
+* Retrofit &#9745; (used for Spotify Web API requests)
+* JobScheduler &#9745; (user can schedule the download of songs when wifi is available - user only gets prompted if using a mobile connection)
+
+APIs:
+* Spotify Web API
+* Youtube API v3
