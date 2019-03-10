@@ -28,8 +28,11 @@ import com.google.api.services.youtube.model.SearchListResponse;
 import com.google.api.services.youtube.model.SearchResult;
 import com.google.api.services.youtube.model.Thumbnail;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Iterator;
 
 import at.hagenberg.captainhook.R;
@@ -109,10 +112,15 @@ public class YoutubeBrowseActivity extends AppCompatActivity {
                     ResourceId rId = singleVideo.getId();
                     String title = singleVideo.getSnippet().getTitle();
                     String channel = singleVideo.getSnippet().getChannelTitle();
-                    DateTime dateTime = singleVideo.getSnippet().getPublishedAt();
-                    String uploaded = getDate(dateTime.getValue());
+                    String dateTime = singleVideo.getSnippet().getPublishedAt().toString();
+                    String publishedAt = null;
+                    try {
+                        publishedAt = getDate(dateTime);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
                     Thumbnail thumbnail = singleVideo.getSnippet().getThumbnails().getMedium();
-                    datamodels.add(new YoutubeBrowseModel(rId.getVideoId(), title, channel, uploaded, thumbnail.getUrl()));
+                    datamodels.add(new YoutubeBrowseModel(rId.getVideoId(), title, channel, publishedAt, thumbnail.getUrl()));
                 }
 
                 //adapter
@@ -204,11 +212,13 @@ public class YoutubeBrowseActivity extends AppCompatActivity {
         return true;
     }
 
-    private String getDate(long time) {
-        Calendar cal = Calendar.getInstance();
-        cal.setTimeInMillis(time * 1000);
-        String date = DateFormat.format("dd.MM.yyyy", cal).toString();
-        return date;
+    public static String getDate(String date) throws ParseException {
+        String[] dateSplit = date.split("T");
+        SimpleDateFormat parser = new SimpleDateFormat("yyyy-MM-dd");
+        Date parsedDate = parser.parse(dateSplit[0]);
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+        String formattedDate = formatter.format(parsedDate);
+        return formattedDate;
     }
 
 
