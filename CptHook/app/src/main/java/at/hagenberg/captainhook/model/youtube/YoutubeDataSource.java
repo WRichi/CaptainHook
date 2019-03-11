@@ -15,18 +15,25 @@ import com.google.api.services.youtube.model.SearchResult;
 import com.google.api.services.youtube.model.Thumbnail;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
 
 public class YoutubeDataSource {
 
     private final String TAG = getClass().getName();
     //private final String API_KEY = "AIzaSyB9xpwEVIDJ3uRnpd6Gd8KBt_FlIVPWRp4";
-    private final String API_KEY = "AIzaSyCUPJ7-YKWYVfAZwwlRMtgJY_e774vBjpg";
+    private ArrayList<String> API_KEYS = new ArrayList<String>() {{
+        add("AIzaSyB9xpwEVIDJ3uRnpd6Gd8KBt_FlIVPWRp4");
+        add("AIzaSyCUPJ7-YKWYVfAZwwlRMtgJY_e774vBjpg");
+        add("AIzaSyDefoI6DSifkwDeyka6_Psdc_JNW-jzeZQ");
+    }};
+    private String ACTIVE_API_KEY = "AIzaSyCUPJ7-YKWYVfAZwwlRMtgJY_e774vBjpg";
+    private int ACTIVE_API_KEY_INDEX = 0;
     private final Long MAX_RESULTS = Long.valueOf(10);
 
     public void browseYoutube(String query, YoutubeCallback callback) {
         try {
-            Log.d(TAG,"Start getYoutubeID");
+            Log.d(TAG, "Start getYoutubeID");
             YouTube youtube = new YouTube.Builder(new NetHttpTransport(), new JacksonFactory(), new HttpRequestInitializer() {
                 public void initialize(HttpRequest request) throws IOException {
                 }
@@ -35,7 +42,7 @@ public class YoutubeDataSource {
             // Define the API request for retrieving search results.
             final YouTube.Search.List search = youtube.search().list("id,snippet");
 
-            search.setKey(API_KEY);
+            search.setKey(API_KEYS.get(ACTIVE_API_KEY_INDEX));
             search.setQ(query);
             search.setType("video");
             search.setFields("items(id/kind,id/videoId,snippet/title,snippet/thumbnails/medium/url,snippet/channelTitle, snippet/publishedAt)");
@@ -46,12 +53,20 @@ public class YoutubeDataSource {
             youtubeSearchAsyncTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, search);
 
         } catch (GoogleJsonResponseException e) {
-            Log.e(TAG,"There was a service error: " + e.getDetails().getCode() + " : "
+            Log.e(TAG, "There was a service error: " + e.getDetails().getCode() + " : "
                     + e.getDetails().getMessage());
         } catch (IOException e) {
             Log.e(TAG, "There was an IO error: " + e.getCause() + " : " + e.getMessage());
         } catch (Throwable t) {
             t.printStackTrace();
+        }
+    }
+
+    public void updateAPI_KEY() {
+        if(ACTIVE_API_KEY_INDEX == API_KEYS.size()){
+            ACTIVE_API_KEY_INDEX = 0;
+        }else{
+            ACTIVE_API_KEY_INDEX++;
         }
     }
 }

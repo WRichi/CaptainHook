@@ -146,8 +146,11 @@ public class YoutubeBrowseActivity extends AppCompatActivity {
 
             @Override
             public void onError(String message) {
-                Toast.makeText(getApplicationContext(), "Error: API Data Usage Limit Exceeded", Toast.LENGTH_SHORT).show();
-                YoutubeBrowseActivity.this.finish();
+                //Toast.makeText(getApplicationContext(), "Error: API Data Usage Limit Exceeded", Toast.LENGTH_SHORT).show();
+                Log.d("API EXCEED", "API Limit Exceeded.");
+                youtubeViewModel.updateAPI_KEY();
+                searchYoutubeStep();
+                //YoutubeBrowseActivity.this.finish();
             }
         });
     }
